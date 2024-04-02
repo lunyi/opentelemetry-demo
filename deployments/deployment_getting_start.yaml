@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otlp-getting-start
+  namespace: devops
+  labels:
+    app: getting-start
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: getting-start
+  template:
+    metadata:
+      labels:
+        app: getting-start
+    spec:
+      containers:
+      - name: getting-start
+        image: pgtgs/otlp-test:test
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: dockerhub
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: otlp-getting-start
+  namespace: devops
+spec:
+  type: NodePort
+  selector:
+    app: getting-start
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      nodePort: 30001
