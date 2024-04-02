@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"log"
+	"os"
 	"time"
 
 	"go.opentelemetry.io/otel"
@@ -79,7 +80,7 @@ func newTraceProvider(ctx context.Context) (*trace.TracerProvider, error) {
 	exporter, err := otlptrace.New(
 		ctx,
 		otlptracegrpc.NewClient(
-			otlptracegrpc.WithEndpoint("otel-svc.observability:2317"),
+			otlptracegrpc.WithEndpoint(os.Getenv("OTEL_SVC_ENDPOINT")),
 			otlptracegrpc.WithInsecure(), // TLS disabled
 		),
 	)
@@ -92,7 +93,7 @@ func newTraceProvider(ctx context.Context) (*trace.TracerProvider, error) {
 		trace.WithBatcher(exporter),
 		trace.WithResource(resource.NewWithAttributes(
 			semconv.SchemaURL,
-			semconv.ServiceNameKey.String("otel-getting-start"), // Replace with your service name
+			semconv.ServiceNameKey.String(os.Getenv("SERVICE_NAME")), // Replace with your service name
 		)),
 	)
 	return traceProvider, nil
