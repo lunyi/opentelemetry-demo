@@ -79,7 +79,7 @@ func newTraceProvider(ctx context.Context) (*trace.TracerProvider, error) {
 	exporter, err := otlptrace.New(
 		ctx,
 		otlptracegrpc.NewClient(
-			otlptracegrpc.WithEndpoint("jaeger-collector.observability:14250"),
+			otlptracegrpc.WithEndpoint("otel-svc.observability:2317"),
 			otlptracegrpc.WithInsecure(), // TLS disabled
 		),
 	)
