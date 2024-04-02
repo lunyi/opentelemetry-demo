@@ -1,0 +1,14 @@
+# Use the official Go image as the base image
+FROM golang:1.21.1
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the source code into the container
+COPY src/getting_start .
+
+# Build the Go application
+RUN go build -o main .
+
+# Set the entry point for the container
+ENTRYPOINT ["./main"]
