@@ -29,8 +29,16 @@ func init() {
 }
 
 func rolldice(w http.ResponseWriter, r *http.Request) {
+	log.Print("rolldice 1\n")
+
 	tracer := otel.Tracer("rolldice")
+
+	log.Print("rolldice 2\n")
+
 	ctx, span := tracer.Start(r.Context(), "roll")
+
+	log.Print("rolldice 3\n")
+
 	defer span.End()
 
 	roll := 1 + rand.Intn(6)
