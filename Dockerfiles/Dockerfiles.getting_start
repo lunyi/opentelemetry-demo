@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Copy the source code into the container
 COPY src/getting_start .
+COPY . .
 
 # Build the Go application
 RUN go build -o main .
