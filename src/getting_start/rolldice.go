@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 	"strconv"
+	"time"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
@@ -13,7 +14,6 @@ import (
 )
 
 var (
-	tracer  = otel.Tracer("rolldice")
 	meter   = otel.Meter("rolldice")
 	rollCnt metric.Int64Counter
 )
@@ -29,6 +29,7 @@ func init() {
 }
 
 func rolldice(w http.ResponseWriter, r *http.Request) {
+	tracer := otel.Tracer("rolldice")
 	ctx, span := tracer.Start(r.Context(), "roll")
 	defer span.End()
 
@@ -42,4 +43,9 @@ func rolldice(w http.ResponseWriter, r *http.Request) {
 	if _, err := io.WriteString(w, resp); err != nil {
 		log.Printf("Write failed: %v\n", err)
 	}
+
+	_, childSpan := tracer.Start(ctx, "childSpan")
+	// Simulate work
+	time.Sleep(100 * time.Millisecond)
+	childSpan.End()
 }
