@@ -1,0 +1,10 @@
+﻿################################################################################
+# 這個 .gitignore 檔案由 Microsoft(R) Visual Studio 自動建立。
+################################################################################
+
+/.net/obj
+/.net/.vs
+/.net/.vs/*
+.net/opentelemetry-test/.vs
+.net/opentelemetry-test/opentelemetry-test/bin
+.net/opentelemetry-test/opentelemetry-test/obj
